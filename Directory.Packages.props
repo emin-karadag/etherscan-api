@@ -1,0 +1,12 @@
+﻿<Project>
+  <ItemGroup>
+    <!-- Library dependency (the package's only one) -->
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="11.0.0" />
+
+    <!-- Tests and samples -->
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="11.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="11.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="11.0.1" />
+    <PackageVersion Include="xunit.v3" Version="4.0.3" />
+  </ItemGroup>
+</Project>

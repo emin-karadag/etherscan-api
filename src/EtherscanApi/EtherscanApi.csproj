@@ -1,0 +1,59 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Build: TargetFramework, Nullable, analyzers and warnings-as-errors come from Directory.Build.props. -->
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <!-- Implies IsTrimmable and enables the trim, single-file and AOT analyzers. -->
+    <IsAotCompatible>true</IsAotCompatible>
+    <!-- Also fail the build if a referenced assembly is not annotated as AOT-compatible (IL3058). -->
+    <VerifyReferenceAotCompatibility>true</VerifyReferenceAotCompatibility>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <!-- Package identity and metadata -->
+  <PropertyGroup>
+    <!-- Explicit on purpose: the nuget.org identity must not change if the project file is renamed. -->
+    <PackageId>EtherscanApi</PackageId>
+    <!-- Bump before each manual `dotnet pack` + `dotnet nuget push`; published versions cannot be reused. -->
+    <Version>1.0.0-preview.1</Version>
+    <Authors>Mehmet Emin KARADAĞ</Authors>
+    <Company>$(Authors)</Company>
+    <Copyright>Copyright (c) $(Authors) 2026</Copyright>
+    <Description>Unofficial, strongly-typed .NET client for the Etherscan API V2. One API key, 50+ EVM chains: accounts, tokens, contracts and verification, blocks, logs, gas tracker, stats, Geth/Parity proxy, L2, ENS, nametags and usage. Async, DI-friendly, AOT-compatible, with client-side rate limiting and automatic pagination.</Description>
+    <PackageTags>etherscan;ethereum;evm;blockchain;web3;api;client;multichain;crypto;onchain</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/emin-karadag/etherscan-api</PackageProjectUrl>
+    <RepositoryUrl>$(PackageProjectUrl)</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReleaseNotes>See $(PackageProjectUrl)/blob/main/CHANGELOG.md</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <!-- Packaging quality (Source Link and EmbedUntrackedSources are on by default in the .NET SDK) -->
+  <PropertyGroup>
+    <EnablePackageValidation>true</EnablePackageValidation>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\assets\icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      The only package dependency: IHttpClientFactory integration for AddEtherscanApi.
+      Options, DependencyInjection.Abstractions, Logging.Abstractions and Configuration.Abstractions
+      ship in the .NET 11 shared framework, so they need no PackageReference.
+    -->
+    <PackageReference Include="Microsoft.Extensions.Http" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="EtherscanApi.Tests" />
+  </ItemGroup>
+
+</Project>

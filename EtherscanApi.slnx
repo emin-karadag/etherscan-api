@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/EtherscanApi/EtherscanApi.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/EtherscanApi.Tests/EtherscanApi.Tests.csproj" />
+    <Project Path="tests/EtherscanApi.IntegrationTests/EtherscanApi.IntegrationTests.csproj" />
+  </Folder>
+  <Folder Name="/samples/">
+    <Project Path="samples/EtherscanApi.Samples.Console/EtherscanApi.Samples.Console.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="README.md" />
+    <File Path="CHANGELOG.md" />
+  </Folder>
+</Solution>

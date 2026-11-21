@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Restore
+        run: dotnet restore EtherscanApi.slnx
+
+      - name: Build
+        run: dotnet build EtherscanApi.slnx -c Release --no-restore -warnaserror
+
+      - name: Unit tests
+        run: dotnet test --project tests/EtherscanApi.Tests/EtherscanApi.Tests.csproj -c Release --no-build
+
+      # Live tests run only when the repository secret ETHERSCAN_API_KEY is configured.
+      - name: Live tests (read-only)
+        if: ${{ env.ETHERSCAN_API_KEY != '' }}
+        run: dotnet test --project tests/EtherscanApi.IntegrationTests/EtherscanApi.IntegrationTests.csproj -c Release --no-build
+
+      # Native AOT smoke build of the sample (ubuntu runners ship the clang toolchain AOT needs).
+      - name: Native AOT publish (sample)
+        run: dotnet publish samples/EtherscanApi.Samples.Console/EtherscanApi.Samples.Console.csproj -c Release -r linux-x64 -o aot-out -warnaserror
+
+      - name: Pack
+        run: dotnet pack src/EtherscanApi/EtherscanApi.csproj -c Release --no-build -o artifacts
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: packages
+          path: |
+            artifacts/*.nupkg
+            artifacts/*.snupkg

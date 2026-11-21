@@ -1,0 +1,27 @@
+## .NET
+bin/
+obj/
+artifacts/
+*.user
+*.suo
+*.userprefs
+.vs/
+.vscode/
+.idea/
+TestResults/
+*.nupkg
+*.snupkg
+coverage*.xml
+
+## Local reference material (Etherscan documentation exports)
+llms.txt
+llms-full.txt
+
+## Secrets
+.env
+appsettings.*.local.json
+secrets.json
+
+## OS
+.DS_Store
+Thumbs.db
